@@ -4,7 +4,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mqtt.chat.entity.ChatMessage;
 import com.mqtt.chat.repository.MessageClient;
@@ -18,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
 
 
@@ -27,8 +25,6 @@ public class SendMessageServiceTest {
   @InjectMocks
   private SendMessageService service ;
   
-  //@Mock
-  //private ConfigurationService config;
   
   @Mock
   private JacksonWrapperService jackson;
@@ -46,7 +42,6 @@ public class SendMessageServiceTest {
     when(jackson.getMapper ()).thenReturn (mapper);
     when(mapper.writeValueAsString(any(Object.class))).thenReturn("hello");
     Mockito.doNothing ().when(msgclient).sendMessage( any(String.class), any(String.class), anyInt(), any(String.class));
-    //when(msgclient.sendMessage (any(String.class), any(String.class), 1, any(String.class))).thenReturn();
   }
   
   @Test

@@ -15,7 +15,6 @@ import com.mqtt.chat.repository.MessageClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,35 +30,25 @@ public class MessageCallBackService implements MqttCallback {
   private String broker = null;
   private int qos = 1;
   private String session = null;
-  
+
   @Autowired
   private MessageClient client;
 
   public MessageCallBackService () {
   }
 
-  public void subscribe ()/*ConfigurationService config*/
-      {
-  //public MessageCallBackService(
-  //    ) {
-    
-  logger.debug ("MessageCallBackService is initialized " );
-   clientId = System.getProperty(Constants.clientid);
-  String topic = System.getProperty (Constants.topic);
-   broker = System.getProperty( Constants.broker);
-  String strqos = System.getProperty (Constants.qos)  ;
-   session = System.getProperty (Constants.clean);
+  public void subscribe () {
+
+    logger.debug ("MessageCallBackService is initialized ");
+    clientId = System.getProperty (Constants.clientid);
+    String topic = System.getProperty (Constants.topic);
+    broker = System.getProperty (Constants.broker);
+    String strqos = System.getProperty (Constants.qos);
+    session = System.getProperty (Constants.clean);
     try {
-      //clientId = config.getProperty (Constants.clientid);
-      //String topic = config.getProperty (Constants.topic);
       logger.info ("subscribing to " + topic);
-      //broker = config.getProperty (Constants.broker);
-      //qos = Integer.parseInt (config.getProperty (Constants.qos));
       qos = Integer.parseInt (strqos);
-      //session = config.getProperty (Constants.clean);
-      //client = MessageClient.getInstance (clientId, broker, qos, session);
-      //client = new MessageClient();
-      client.init (clientId,  broker, qos,  session);
+      client.init (clientId, broker, qos, session);
       client.getClient ().setCallback (this);
       client.getClient ().subscribe (topic.trim (), qos);
 
@@ -84,26 +73,27 @@ public class MessageCallBackService implements MqttCallback {
   public void processMessage (final String message) {
 
     try {
-      logger.debug ("received message in subscribe "+message);
+      logger.debug ("received message in subscribe " + message);
       MessagePayload payload = jackson.getMapper ().readValue (message, MessagePayload.class);
-      if ( payload.getCommandType ().equals (Constants.gameof3)) {
-        ChatMessage cmsg = jackson.getMapper ().readValue (payload.getPayload (), ChatMessage.class);
+      if (payload.getCommandType ().equals (Constants.gameof3)) {
+        ChatMessage cmsg =
+            jackson.getMapper ().readValue (payload.getPayload (), ChatMessage.class);
         logger.info ("Message received from sender: " + cmsg.getSender ());
         String result = gameservice.checkForWinner (cmsg);
         System.out.println (result);
 
       }
-      
+
     } catch (Exception ex) {
-      logger.error ("failed to parse input json ",ex);
+      logger.error ("failed to parse input json ", ex);
     }
 
   }
 
   /**
-   * It really important to process the message arrived in seperate thread
-   * since another message is produced to the client. Processing the message
-   * in the same subscriber thread can lead to deadlock
+   * It really important to process the message arrived in seperate thread since another message is
+   * produced to the client. Processing the message in the same subscriber thread can lead to
+   * deadlock
    */
   public void messageArrived (String topic, MqttMessage mqttmsg) throws Exception {
 

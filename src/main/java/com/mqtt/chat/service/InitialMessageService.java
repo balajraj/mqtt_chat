@@ -26,7 +26,7 @@ public class InitialMessageService {
   /**
    * This service is responsible for sending out the first message
    * @param friend is name of the topic to which message will be published
-   * @param number the intial number to be played on
+   * @param number the initial number to be played on
    */
   public void emitFirstMessage (String friend, int number) {
 

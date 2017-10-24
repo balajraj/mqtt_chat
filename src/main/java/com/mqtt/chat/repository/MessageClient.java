@@ -14,12 +14,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 /**
- * The MessageClient implements singleton since mqtt client works only with
- * one instance of client. The dependency injection with sprint does not work well
- * where hence implemented the singleton. 
- *
+ * The MessageClient implements singleton since mqtt client works only with one instance of client.
  */
-@Scope(value = "singleton")
+@Scope (value = "singleton")
 @Service
 public class MessageClient {
   private MqttClient mqclient;
@@ -29,32 +26,22 @@ public class MessageClient {
   private String clientId = null;
   private String broker = null;
   private String session = null;
-  //private static MessageClient obj = null;
 
-  /*
-  public static
-      MessageClient
-      getInstance (String clientId, String broker, int qos, String session) {
+  public MessageClient () {
 
-    if (obj == null) {
-      synchronized (mutex) {
-        obj = new MessageClient (clientId, broker, qos, session);
-      }
-    }
-    return obj;
-  }
-  */
-  
-  public MessageClient() {
-    
   }
 
   /**
    * The sendMessage will publish the message to the give topic
-   * @param topic to which the message is published
-   * @param msg The payload to be send out
-   * @param retryCount only one retry is supported now
-   * @param retained if set to true messages are retained even if no one to listen to them
+   * 
+   * @param topic
+   *          to which the message is published
+   * @param msg
+   *          The payload to be send out
+   * @param retryCount
+   *          only one retry is supported now
+   * @param retained
+   *          if set to true messages are retained even if no one to listen to them
    */
   public void sendMessage (String topic, String msg, int retryCount, String retained) {
 
@@ -81,35 +68,38 @@ public class MessageClient {
 
   /**
    * Initializes the mqtt client
-   * @param clientId it has to unique for each client connected to mqtt broker
-   * @param broker the mqtt broker url
-   * @param qos quality service if set to 2 has exactly once delivery guarantee
-   * @param session if set to false becomes stateful
+   * 
+   * @param clientId
+   *          it has to unique for each client connected to mqtt broker
+   * @param broker
+   *          the mqtt broker url
+   * @param qos
+   *          quality service if set to 2 has exactly once delivery guarantee
+   * @param session
+   *          if set to false becomes stateful
    */
   public void init (String clientId, String broker, int qos, String session) {
 
     this.qos = qos;
     this.broker = broker;
     this.clientId = clientId;
-    if (mqclient == null) {
-      logger.debug ("msgclient is null initializing ");
-      try {
-        MemoryPersistence persistence = new MemoryPersistence ();
+    logger.debug ("msgclient is null initializing ");
+    try {
+      MemoryPersistence persistence = new MemoryPersistence ();
 
-        this.mqclient = new MqttClient (broker, clientId, persistence);
-        MqttConnectOptions connOpts = new MqttConnectOptions ();
-        connOpts.setCleanSession (Boolean.valueOf (session));
-        logger.info ("Connecting to broker: " + broker);
-        this.mqclient.connect (connOpts);
-        logger.info ("Connected");
+      this.mqclient = new MqttClient (broker, clientId, persistence);
+      MqttConnectOptions connOpts = new MqttConnectOptions ();
+      connOpts.setCleanSession (Boolean.valueOf (session));
+      logger.info ("Connecting to broker: " + broker);
+      this.mqclient.connect (connOpts);
+      logger.info ("Connected");
 
-      } catch (MqttException me) {
-        logger.error ("reason " + me.getReasonCode (), me);
-        logger.error ("msg " + me.getMessage ());
-        logger.error ("loc " + me.getLocalizedMessage ());
-        logger.error ("cause " + me.getCause ());
-        logger.error ("excep " + me);
-      }
+    } catch (MqttException me) {
+      logger.error ("reason " + me.getReasonCode (), me);
+      logger.error ("msg " + me.getMessage ());
+      logger.error ("loc " + me.getLocalizedMessage ());
+      logger.error ("cause " + me.getCause ());
+      logger.error ("excep " + me);
     }
 
   }

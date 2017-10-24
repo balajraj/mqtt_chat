@@ -18,7 +18,6 @@ public class SendMessageService {
   @Autowired
   private MessageClient msgRep;
 
-  //private ConfigurationService config;
   @Autowired
   private JacksonWrapperService jackson;
 
@@ -29,32 +28,22 @@ public class SendMessageService {
   private String retained = null;
 
   public SendMessageService () {
-  }  
-  public void init() {  
-    //this.config = new ConfigurationService ();
-    this.clientId = System.getProperty (Constants.clientid);
-    this.broker = System.getProperty (Constants.broker);
-    this.qos = Integer.parseInt (System.getProperty (Constants.qos));
-    this.session = System.getProperty (Constants.clean);
-    this.retained = System.getProperty (Constants.retained);
-    //client = new MessageClient();
-    msgRep.init (clientId,  broker, qos,  session);
-    
-    //this.msgRep = MessageClient.getInstance (clientId, broker, qos, session);
-
   }
- 
+
   /**
    * Will send the message out to the topic mentioned
-   * @param friendName name of the topic to which message will be send out
-   * @param msg the actual payload
+   * 
+   * @param friendName
+   *          name of the topic to which message will be send out
+   * @param msg
+   *          the actual payload
    */
   public void sendMessage (String friendName, ChatMessage msg) {
 
     String message = null;
     int retryCount = 1;
     try {
-      MessagePayload payload = new MessagePayload();
+      MessagePayload payload = new MessagePayload ();
       payload.setPayload (jackson.getMapper ().writeValueAsString (msg));
       payload.setCommandType (Constants.gameof3);
       message = jackson.getMapper ().writeValueAsString (payload);

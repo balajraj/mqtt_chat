@@ -52,11 +52,9 @@ public class GameOf3ServiceTest
         cmsg.setNumber (10);
         cmsg.setSender ("user2");
         String result = service.checkForWinner (cmsg);
-        //System.out.println(result);
         assertTrue(result.equals("[user1 playing with user2]\n[CURRENT NUM:10 NEXT NUM:3 ADDING: -1]\n"));
         cmsg.setNumber(4);
         result = service.checkForWinner (cmsg);
-        //System.out.println(result);
         assertTrue(result.equals("[user1 playing with user2]\n[CURRENT NUM:4 NEXT NUM:1 ADDING: -1]\n[user1 is the WINNER]"));
     }
     
