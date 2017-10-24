@@ -27,6 +27,7 @@ public class GameCommand implements ICommand {
     this.number = number;
   }
 
+  @Override
   public void execute () {
 
     initService.emitFirstMessage (friend, number);

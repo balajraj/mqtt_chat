@@ -10,6 +10,8 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
 /**
  * The MessageClient implements singleton since mqtt client works only with
@@ -17,6 +19,8 @@ import org.slf4j.LoggerFactory;
  * where hence implemented the singleton. 
  *
  */
+@Scope(value = "singleton")
+@Service
 public class MessageClient {
   private MqttClient mqclient;
   private static final Logger logger = LoggerFactory.getLogger (MessageClient.class);
@@ -25,8 +29,9 @@ public class MessageClient {
   private String clientId = null;
   private String broker = null;
   private String session = null;
-  private static MessageClient obj = null;
+  //private static MessageClient obj = null;
 
+  /*
   public static
       MessageClient
       getInstance (String clientId, String broker, int qos, String session) {
@@ -37,6 +42,11 @@ public class MessageClient {
       }
     }
     return obj;
+  }
+  */
+  
+  public MessageClient() {
+    
   }
 
   /**

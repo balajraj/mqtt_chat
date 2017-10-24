@@ -50,13 +50,14 @@ public class GameOf3ServiceTest
         assertTrue(num.getNextNumber() == 2);
         ChatMessage cmsg = new ChatMessage();
         cmsg.setNumber (10);
-        cmsg.setSender ("user1");
+        cmsg.setSender ("user2");
         String result = service.checkForWinner (cmsg);
-        assertTrue(result.equals("[CURRENT NUM:10 NEXT NUM:3 ADDING: -1]\n"));
+        //System.out.println(result);
+        assertTrue(result.equals("[user1 playing with user2]\n[CURRENT NUM:10 NEXT NUM:3 ADDING: -1]\n"));
         cmsg.setNumber(4);
         result = service.checkForWinner (cmsg);
         //System.out.println(result);
-        assertTrue(result.equals("[CURRENT NUM:4 NEXT NUM:1 ADDING: -1]\n[user1] WINNER"));
+        assertTrue(result.equals("[user1 playing with user2]\n[CURRENT NUM:4 NEXT NUM:1 ADDING: -1]\n[user1 is the WINNER]"));
     }
     
     @Test(expected = InvalidInputException.class)

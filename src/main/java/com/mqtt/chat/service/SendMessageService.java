@@ -3,6 +3,7 @@ package com.mqtt.chat.service;
 
 import com.mqtt.chat.Constants;
 import com.mqtt.chat.entity.ChatMessage;
+import com.mqtt.chat.entity.MessagePayload;
 import com.mqtt.chat.repository.MessageClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
@@ -14,9 +15,10 @@ import org.springframework.stereotype.Service;
 public class SendMessageService {
   private static final Logger logger = LoggerFactory.getLogger (SendMessageService.class);
 
+  @Autowired
   private MessageClient msgRep;
 
-  private ConfigurationService config;
+  //private ConfigurationService config;
   @Autowired
   private JacksonWrapperService jackson;
 
@@ -27,13 +29,18 @@ public class SendMessageService {
   private String retained = null;
 
   public SendMessageService () {
-    this.config = new ConfigurationService ();
-    this.clientId = config.getProperty (Constants.clientid);
-    this.broker = config.getProperty (Constants.broker);
-    this.qos = Integer.parseInt (config.getProperty (Constants.qos));
-    this.session = config.getProperty (Constants.clean);
-    this.retained = config.getProperty (Constants.retained);
-    this.msgRep = MessageClient.getInstance (clientId, broker, qos, session);
+  }  
+  public void init() {  
+    //this.config = new ConfigurationService ();
+    this.clientId = System.getProperty (Constants.clientid);
+    this.broker = System.getProperty (Constants.broker);
+    this.qos = Integer.parseInt (System.getProperty (Constants.qos));
+    this.session = System.getProperty (Constants.clean);
+    this.retained = System.getProperty (Constants.retained);
+    //client = new MessageClient();
+    msgRep.init (clientId,  broker, qos,  session);
+    
+    //this.msgRep = MessageClient.getInstance (clientId, broker, qos, session);
 
   }
  
@@ -47,7 +54,10 @@ public class SendMessageService {
     String message = null;
     int retryCount = 1;
     try {
-      message = jackson.getMapper ().writeValueAsString (msg);
+      MessagePayload payload = new MessagePayload();
+      payload.setPayload (jackson.getMapper ().writeValueAsString (msg));
+      payload.setCommandType (Constants.gameof3);
+      message = jackson.getMapper ().writeValueAsString (payload);
       logger.info ("sending message to " + friendName + " message " + message);
       msgRep.sendMessage (friendName, message, retryCount, retained);
 

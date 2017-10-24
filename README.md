@@ -44,17 +44,20 @@ The game can be started in the command line as follows, and here is the output o
 The output in the first client
 ```
 SEND germany/berlin/muller 56
+[germany/berlin/ernst playing with germany/berlin/muller]
 [CURRENT NUM:19 NEXT NUM:6 ADDING: -1]
 
+[germany/berlin/ernst playing with germany/berlin/muller]
 [CURRENT NUM:2 NEXT NUM:1 ADDING: 1]
-[germany/berlin/ernst] WINNER
-
+[germany/berlin/ernst is the WINNER]
 ```
 
 The output in the second client. 
 ```
+[germany/berlin/muller playing with germany/berlin/ernst]
 [CURRENT NUM:56 NEXT NUM:19 ADDING: 1]
 
+[germany/berlin/muller playing with germany/berlin/ernst]
 [CURRENT NUM:6 NEXT NUM:2 ADDING: 0]
 ```
 

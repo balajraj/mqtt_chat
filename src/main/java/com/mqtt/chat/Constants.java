@@ -12,5 +12,8 @@ public class Constants {
   public static final String current_num = "CURRENT NUM:";
   public static final String next_num = "NEXT NUM:";
   public static final String adding = "ADDING:";
-  public static final String winner = "WINNER";
+  public static final String winner = " is the WINNER";
+  public static final String gameof3 = "gameof3";
+  public static final String playing = " playing with ";
+  public static final String send = "SEND";
 }

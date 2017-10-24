@@ -3,11 +3,15 @@ package com.mqtt.chat.service;
 
 import com.mqtt.chat.entity.ChatMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class InitialMessageService {
+
+  private static final Logger logger = LoggerFactory.getLogger (InitialMessageService.class);
 
   @Autowired
   private ConfigurationService config;
@@ -26,6 +30,7 @@ public class InitialMessageService {
    */
   public void emitFirstMessage (String friend, int number) {
 
+    logger.debug ("sending the first message");
     String topic = config.getProperty ("topic");
 
     if (number < 3) {

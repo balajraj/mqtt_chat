@@ -30,6 +30,7 @@ public class ConfigurationService {
       input = new FileInputStream (configFile);
       prop = new Properties ();
       prop.load (input);
+      setSystemProperties();
     } catch (IOException ex) {
       logger.error ("error in reading the config file", ex);
     } finally {
@@ -41,6 +42,16 @@ public class ConfigurationService {
         }
       }
     }
+  }
+  
+  public void setSystemProperties( ) {
+    System.setProperty(Constants.clientid,prop.getProperty (Constants.clientid));
+    System.setProperty (Constants.broker, prop.getProperty (Constants.broker));
+    System.setProperty (Constants.clean, prop.getProperty (Constants.clean));
+    System.setProperty (Constants.qos, prop.getProperty (Constants.qos));
+    System.setProperty (Constants.topic, prop.getProperty (Constants.topic));
+    System.setProperty (Constants.retained, prop.getProperty (Constants.retained));
+    
   }
 
   /**

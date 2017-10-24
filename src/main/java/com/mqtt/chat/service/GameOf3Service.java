@@ -40,11 +40,12 @@ public class GameOf3Service {
     StringBuffer buf = new StringBuffer ();
     NextNumber num = getNextNumber (number);
     buf.append (
+      "["+topic+Constants.playing+currentMsg.getSender()+"]\n"+
       "["+Constants.current_num + number + " "+Constants.next_num + 
        num.getNextNumber () + " "+Constants.adding+" " + num.getSum ()
           + "]\n");
     if (num.getNextNumber () == 1) {
-      buf.append ("[" + topic + "] "+Constants.winner);
+      buf.append ("[" + topic + Constants.winner+"]");
     } else {
       ChatMessage newMsg = new ChatMessage ();
       newMsg.setNumber (num.getNextNumber ());
