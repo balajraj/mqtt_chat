@@ -6,10 +6,10 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,18 @@ import org.springframework.stereotype.Service;
 @Scope (value = "singleton")
 @Service
 public class MessageClient {
-  private MqttClient mqclient;
   private static final Logger logger = LoggerFactory.getLogger (MessageClient.class);
-  private static Object mutex = new Object ();
-  private int qos = 0;
+    private int qos = 0;
   private String clientId = null;
   private String broker = null;
   private String session = null;
 
+  @Autowired
+  MqttClientWrapper clientwrapper;
+  
+  @Autowired
+  MqttTopicWrapper topicwrapper;
+  
   public MessageClient () {
 
   }
@@ -48,11 +52,10 @@ public class MessageClient {
     try {
       logger.info ("Publishing message: " + msg + " " + qos);
       MqttMessage message = new MqttMessage (msg.getBytes ());
-      MqttTopic mtopic = this.mqclient.getTopic (topic);
       message.setQos (qos);
       message.setRetained (Boolean.valueOf (retained));
       MqttDeliveryToken token = null;
-      token = mtopic.publish (message);
+      token = topicwrapper.sendMessage (clientwrapper.getClient (),message,topic);
       token.waitForCompletion ();
       logger.info ("Message published");
 
@@ -83,15 +86,16 @@ public class MessageClient {
     this.qos = qos;
     this.broker = broker;
     this.clientId = clientId;
+    this.session = session;
     logger.debug ("msgclient is null initializing ");
     try {
       MemoryPersistence persistence = new MemoryPersistence ();
 
-      this.mqclient = new MqttClient (broker, clientId, persistence);
+      clientwrapper.init(broker,clientId,persistence);
       MqttConnectOptions connOpts = new MqttConnectOptions ();
       connOpts.setCleanSession (Boolean.valueOf (session));
       logger.info ("Connecting to broker: " + broker);
-      this.mqclient.connect (connOpts);
+      clientwrapper.connect (connOpts);
       logger.info ("Connected");
 
     } catch (MqttException me) {
@@ -104,9 +108,7 @@ public class MessageClient {
 
   }
 
-  public MessageClient (String clientId, String broker, int qos, String session) {
-    init (clientId, broker, qos, session);
-  }
+  
 
   public void reconnect (String clientId, String broker, int qos, String session) {
 
@@ -115,7 +117,7 @@ public class MessageClient {
 
   public MqttClient getClient () {
 
-    return mqclient;
+    return clientwrapper.getClient();
   }
 
 }

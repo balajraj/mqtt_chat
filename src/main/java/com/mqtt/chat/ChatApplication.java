@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.mqtt.chat.service.MessageCallBackService;
-import com.mqtt.chat.service.SendMessageService;
 
 import java.util.Optional;
 
@@ -24,9 +23,7 @@ public class ChatApplication {
   
   @Autowired
   private CommandFactory factory;
-  @Autowired
-  private SendMessageService sendservice;
-
+ 
   public ChatApplication () {
 
   }

@@ -30,6 +30,7 @@ public class MessageCallBackService implements MqttCallback {
   private String broker = null;
   private int qos = 1;
   private String session = null;
+  private ExecutorService executor;
 
   @Autowired
   private MessageClient client;
@@ -45,6 +46,8 @@ public class MessageCallBackService implements MqttCallback {
     broker = System.getProperty (Constants.broker);
     String strqos = System.getProperty (Constants.qos);
     session = System.getProperty (Constants.clean);
+    executor = Executors.newFixedThreadPool (Integer.parseInt(System.getProperty (Constants.poolsize)));
+    
     try {
       logger.info ("subscribing to " + topic);
       qos = Integer.parseInt (strqos);
@@ -98,7 +101,6 @@ public class MessageCallBackService implements MqttCallback {
   public void messageArrived (String topic, MqttMessage mqttmsg) throws Exception {
 
     logger.debug ("message arrived");
-    ExecutorService executor = Executors.newSingleThreadExecutor ();
     final String message = new String (mqttmsg.getPayload ());
     executor.submit ( () -> {
       processMessage (message);

@@ -23,7 +23,7 @@ public class ConfigurationService {
   public ConfigurationService () {
     String configFile = System.getProperty (Constants.configfile);
     if (configFile == null) {
-      logger.error ("Failed to read configFile exciting");
+      logger.error ("Failed to read configFile exiting");
       System.exit (0);
     }
     try {
@@ -51,7 +51,7 @@ public class ConfigurationService {
     System.setProperty (Constants.qos, prop.getProperty (Constants.qos));
     System.setProperty (Constants.topic, prop.getProperty (Constants.topic));
     System.setProperty (Constants.retained, prop.getProperty (Constants.retained));
-    
+    System.setProperty (Constants.poolsize, prop.getProperty (Constants.poolsize));
   }
 
   /**

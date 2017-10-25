@@ -16,4 +16,5 @@ public class Constants {
   public static final String gameof3 = "gameof3";
   public static final String playing = " playing with ";
   public static final String send = "SEND";
+  public static final String poolsize= "poolsize";
 }
