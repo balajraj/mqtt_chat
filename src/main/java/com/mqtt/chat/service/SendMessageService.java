@@ -26,12 +26,13 @@ public class SendMessageService {
   private String broker = null;
   private String session = null;
   private String retained = null;
+  private int retryCount = 1;
 
   public SendMessageService () {
   }
 
   /**
-   * Will send the message out to the topic mentioned
+   * Will send the message out to the topic mentioned. For fault tolerance retry of 1 is supported for now.
    * 
    * @param friendName
    *          name of the topic to which message will be send out
@@ -41,7 +42,7 @@ public class SendMessageService {
   public void sendMessage (String friendName, ChatMessage msg) {
 
     String message = null;
-    int retryCount = 1;
+    
     try {
       MessagePayload payload = new MessagePayload ();
       payload.setPayload (jackson.getMapper ().writeValueAsString (msg));

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageClient {
   private static final Logger logger = LoggerFactory.getLogger (MessageClient.class);
-    private int qos = 0;
+  private int qos = 0;
   private String clientId = null;
   private String broker = null;
   private String session = null;
@@ -60,8 +60,7 @@ public class MessageClient {
       logger.info ("Message published");
 
     } catch (MqttException ex) {
-
-      ex.printStackTrace ();
+      logger.error ("Failed to the send the message to broker",ex);
       if (retryCount != 0) {
         reconnect (clientId, broker, qos, session);
         sendMessage (msg, topic, 0, retained);
@@ -109,7 +108,13 @@ public class MessageClient {
   }
 
   
-
+  /**
+   * If the client connection is lost reconnect to be used. 
+   * @param clientId
+   * @param broker
+   * @param qos
+   * @param session
+   */
   public void reconnect (String clientId, String broker, int qos, String session) {
 
     init (clientId, broker, qos, session);
