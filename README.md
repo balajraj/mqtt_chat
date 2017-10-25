@@ -32,13 +32,13 @@ mvn clean package
 ```
 Run the first client using the following command. 
 ```
-java -jar -Dconfigfile=src/main/resources/config1.properties target/chat-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+java -jar -Dconfigfile=src/main/resources/config.properties target/chat-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 Run the second client using the following command. Please note the second client's properties file is different from the first client. To test the persistence please start first client send out a message and then start the second client which can prove the message persistence works fine with mqtt protocol broker based on the qos selected. 
 
 ```
-java -jar -Dconfigfile=src/main/resources/config.properties target/chat-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+java -jar -Dconfigfile=src/main/resources/config1.properties target/chat-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
 The game can be started in the command line as follows, and here is the output of the game. If the second client is not started when the game began the message will be delivered to the client when it comes online. 
