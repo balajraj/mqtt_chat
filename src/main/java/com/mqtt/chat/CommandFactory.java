@@ -45,6 +45,13 @@ public class CommandFactory {
     return ret;
   }
 
+  /**
+   * Check the command name is SEND
+   * @param commandName
+   * @param friend
+   * @param number
+   * @return
+   */
   public boolean checkCommandName (String commandName, String friend, String number) {
 
     boolean failed = false;
@@ -58,6 +65,11 @@ public class CommandFactory {
     return failed;
   }
 
+  /**
+   * Check for input length to be 3
+   * @param commandArgs
+   * @return
+   */
   public boolean checkInputLength (String[] commandArgs) {
    
     boolean failed = false;
@@ -74,6 +86,12 @@ public class CommandFactory {
     return failed;
   }
 
+  /**
+   * Do not allow the user to start game with oneself
+   * @param friend
+   * @param number
+   * @return
+   */
   public boolean checkGameInitiationWithUser (String friend, String number) {
 
     boolean failed = false;
@@ -86,6 +104,11 @@ public class CommandFactory {
     return failed;
   }
 
+  /**
+   * If the number is really an integer
+   * @param number
+   * @return
+   */
   public boolean checkIntegerBounds (String number) {
 
     boolean failed = false;
@@ -101,6 +124,11 @@ public class CommandFactory {
     return failed;
   }
 
+  /**
+   * Check if number is greater than 3
+   * @param number
+   * @return
+   */
   public boolean checkIntegerValue (int number) {
 
     boolean failed = false;
