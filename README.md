@@ -1,6 +1,6 @@
 # The chat application game of 3
 
-The chat appliction has been implemented using mqtt protocol. The main motivation to choose mqtt is because the inspiration from facebook,they have used it for implementing the messenger service. The mqtt protocol is extremely light weight originated by the need to support telemetry for IOT devices.
+The chat application has been implemented using mqtt protocol. The main motivation to choose mqtt is because the inspiration from facebook,they have used it for implementing the messenger service. The mqtt protocol is extremely light weight originated by the need to support telemetry for IOT devices.
 
 The broker for mqtt implements the topic based pub/sub for communication between the clients. There are different quality of service can be selected depending on the user needs.
 
@@ -67,7 +67,7 @@ The output in the second client.
 
 
 # Design considerations
-   The doman driven design pattern has been followed in the implementation of the code. The other design patterns that are used namely include command pattern and singleton. The api between the client for communication is based on json messages through the broker. There is no state maintained in the client application hence it is stateless. The broker maintains state for persisting message, but that is vendor's implementation of mqtt standard.  
+   The doman driven design pattern has been followed in the implementation of the code. Spring framework has been used for dependency injection all the new of objects has been avoided, only exceptions are entity object and broker client. The other design patterns that are used namely include command pattern , chain of responsibility and singleton. The api between the client for communication is based on json messages through the broker. There is no state maintained in the client application hence it is stateless. The broker maintains state for persisting message, but that is vendor's implementation of mqtt standard.  
 
    The code allows simulataneous games between two users this decision was made to keep the complexity less hence it is frees up the client app to maintain any state. 
 
