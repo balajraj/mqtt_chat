@@ -41,6 +41,7 @@ Run the second client using the following command. Please note the second client
 ```
 java -jar -Dconfigfile=src/main/resources/config1.properties target/chat-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
+There is no need to create the topics explicity with mqtt broker and it is implicit create, meaning if the topic does not exist it will get created. 
 
 The game can be started in the command line as follows, and here is the output of the game. 
 
@@ -72,4 +73,4 @@ The output in the second client.
 
    There are massively scalable mqtt brokers such as EMQ available hence scaling the application should not be a problem. Also the mqtt broker topic names include directory kind of structure. In the example shown there are two users in the city germany/berlin. If only germany/berlin is used the message will be boardcasted to all the users in the city berlin, if country alone is used the message will be boardcasted throughout the country. The above boardcast feature is not used in the code, but mqtt provides a generic way to distribute the message among client which can be advantage for other future requirements. 
 
-The client will not be able initiate the game with oneself and proper message will be shown for the ssame. 
+The client will not be able initiate the game with oneself and proper message will be shown for the same. 

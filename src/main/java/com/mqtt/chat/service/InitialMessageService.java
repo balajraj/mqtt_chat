@@ -25,21 +25,21 @@ public class InitialMessageService {
 
   /**
    * This service is responsible for sending out the first message
-   * @param friend is name of the topic to which message will be published
-   * @param number the initial number to be played on
+   * 
+   * @param friend
+   *          is name of the topic to which message will be published
+   * @param number
+   *          the initial number to be played on
    */
   public void emitFirstMessage (String friend, int number) {
 
     logger.debug ("sending the first message");
     String topic = config.getProperty ("topic");
 
-    if (number < 3) {
-      System.out.println ("Please enter a number greate than 3");
-    } else {
-      ChatMessage cmsg = new ChatMessage ();
-      cmsg.setSender (topic);
-      cmsg.setNumber (number);
-      senderService.sendMessage (friend, cmsg);
-    }
+    ChatMessage cmsg = new ChatMessage ();
+    cmsg.setSender (topic);
+    cmsg.setNumber (number);
+    senderService.sendMessage (friend, cmsg);
+
   }
 }

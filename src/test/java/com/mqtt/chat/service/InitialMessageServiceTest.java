@@ -35,7 +35,6 @@ public class InitialMessageServiceTest {
   @Test
   public void testInitialMessage() {
     
-    service.emitFirstMessage("user1", 2);
     service.emitFirstMessage ("user2", 20);
     verify(sendService, times(1)).sendMessage(any(String.class),any(ChatMessage.class));
     

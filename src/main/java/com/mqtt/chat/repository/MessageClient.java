@@ -36,14 +36,14 @@ public class MessageClient {
   }
 
   /**
-   * The sendMessage will publish the message to the give topic
+   * The sendMessage will publish the message to the given topic
    * 
    * @param topic
    *          to which the message is published
    * @param msg
    *          The payload to be send out
    * @param retryCount
-   *          only one retry is supported now
+   *          only one retry is supported in current verison of implementation
    * @param retained
    *          if set to true messages are retained even if no one to listen to them
    */
@@ -98,18 +98,14 @@ public class MessageClient {
       logger.info ("Connected");
 
     } catch (MqttException me) {
-      logger.error ("reason " + me.getReasonCode (), me);
-      logger.error ("msg " + me.getMessage ());
-      logger.error ("loc " + me.getLocalizedMessage ());
-      logger.error ("cause " + me.getCause ());
-      logger.error ("excep " + me);
+      logger.error("failed to connect to the broker",me);
     }
 
   }
 
   
   /**
-   * If the client connection is lost reconnect to be used. 
+   * If the client connection is lost reconnect will be used. 
    * @param clientId
    * @param broker
    * @param qos
